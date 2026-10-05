@@ -1,0 +1,58 @@
+/*
+ * Design tokens from the BA brand profile (version 05-10-2026).
+ * Primitive tokens mirror the brand palette; components use the semantic tokens.
+ */
+:root {
+  /* Brand palette */
+  --ba-red: #db010c;
+  --ba-black: #131313;
+  --ba-white: #ffffff;
+  --ba-grey-dark: #595959;
+  --ba-grey-light: #c8c8c8;
+  --ba-grey-bg: #f2f2f2;
+
+  /* Semantic colours. Red is an accent only – never red text on black (3.6:1). */
+  --color-bg: var(--ba-white);
+  --color-bg-muted: var(--ba-grey-bg);
+  --color-bg-inverse: var(--ba-black);
+  --color-text: var(--ba-black);
+  --color-text-muted: var(--ba-grey-dark);
+  --color-text-inverse: var(--ba-white);
+  --color-border: var(--ba-grey-light);
+  --color-accent: var(--ba-red);
+  --color-on-accent: var(--ba-white);
+  --color-focus: var(--ba-red);
+
+  /* Typography */
+  --font-sans: "Montserrat Variable", "Montserrat", "Century Gothic", Arial, sans-serif;
+  --weight-regular: 400;
+  --weight-semibold: 600;
+  --weight-extrabold: 800;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --text-3xl: clamp(2.25rem, 1.6rem + 3vw, 4rem);
+  --text-display: clamp(2.5rem, 1.5rem + 4.5vw, 5.5rem);
+  --leading-tight: 1.1;
+  --leading-normal: 1.55;
+
+  /* Spacing & layout */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-section: clamp(3.5rem, 2rem + 6vw, 7rem);
+  --container: 75rem;
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --radius: 2px;
+
+  /* The red line from the brand profile */
+  --rule-width: 3.5rem;
+  --rule-height: 0.3rem;
+}

@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+import { getCompanies } from '../lib/content';
+
+const companies = await Promise.all(
+  (await getCompanies()).map(async (company) => ({ company, Content: (await render(company)).Content })),
+);
+---
+
+<Base title="Virksomheder" description={`Virksomhederne i ${site.name}.`}>
+  <PageHeader
+    eyebrow="Koncernen"
+    title="Vores virksomheder"
+    lead="Pladsholder: Kort om, hvordan virksomhederne i koncernen supplerer hinanden."
+  />
+
+  {
+    companies.map(({ company, Content }, i) => (
+      <section
+        id={company.id}
+        class:list={['section', 'company', { 'section--muted': i % 2 === 1 }]}
+        aria-labelledby={`${company.id}-title`}
+      >
+        <div class="container company__inner">
+          <div class="company__logo">
+            {company.data.logo ? (
+              <Image src={company.data.logo} alt="" height={80} />
+            ) : (
+              <span class="placeholder-note">Pladsholder: logo</span>
+            )}
+          </div>
+          <div>
+            <h2 id={`${company.id}-title`} class="rule">{company.data.name}</h2>
+            <p class="lead">{company.data.summary}</p>
+            <Content />
+            {company.data.website && (
+              <p>
+                <a class="button" href={company.data.website} rel="noopener">
+                  Besøg {company.data.name}<span class="sr-only"> (åbner ekstern side)</span>
+                </a>
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .company { scroll-margin-top: var(--space-4); }
+  .company__inner { display: grid; gap: var(--space-8); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .company__inner > div:last-child { grid-column: span 2; }
+  @media (max-width: 40rem) { .company__inner > div:last-child { grid-column: auto; } }
+</style>

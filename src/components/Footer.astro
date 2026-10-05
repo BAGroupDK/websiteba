@@ -1,0 +1,74 @@
+---
+import Logo from './Logo.astro';
+import { nav, site } from '../data/site';
+import { url } from '../lib/url';
+---
+
+<footer class="footer section--inverse">
+  <div class="container footer__grid">
+    <div>
+      <Logo variant="negative" height={40} alt={site.name} />
+      <p class="footer__name">{site.name}</p>
+      <address>
+        {site.address.street}<br />
+        {site.address.postalCode} {site.address.city}<br />
+        CVR {site.cvr}
+      </address>
+    </div>
+
+    <div>
+      <h2 class="footer__heading">Kontakt</h2>
+      <ul class="footer__list">
+        <li><a href={`tel:${site.phone.href}`}>{site.phone.display}</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      </ul>
+    </div>
+
+    <nav aria-label="Sidefod">
+      <h2 class="footer__heading">Sider</h2>
+      <ul class="footer__list">
+        {nav.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+        <li><a href={url('/privatlivspolitik/')}>Privatlivspolitik</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container footer__bottom">
+    <p>© {site.name}. All rights reserved.</p>
+    <p>Ingen cookies. Ingen sporing.</p>
+  </div>
+</footer>
+
+<style>
+  .footer { padding-block: var(--space-16) var(--space-8); }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-12);
+  }
+  .footer__name { margin: var(--space-6) 0 var(--space-2); font-weight: var(--weight-semibold); }
+  address { font-style: normal; color: var(--ba-grey-light); }
+  .footer__heading {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ba-grey-light);
+  }
+  .footer__list { margin: 0; padding: 0; list-style: none; }
+  .footer__list li + li { margin-top: var(--space-2); }
+  .footer__list a { text-decoration: none; }
+  .footer__list a:hover { text-decoration: underline; }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-8);
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--ba-grey-dark);
+    font-size: var(--text-sm);
+    color: var(--ba-grey-light);
+  }
+  .footer__bottom p { margin: 0; }
+</style>

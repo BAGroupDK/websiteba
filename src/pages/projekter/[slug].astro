@@ -1,0 +1,110 @@
+---
+import { Picture } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getProjectCompanies, getProjects, type Project } from '../../lib/content';
+import { url } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, location, year, client, type, summary, photos } = project.data;
+const companies = await getProjectCompanies(project);
+const { Content } = await render(project);
+const [cover, ...gallery] = photos;
+---
+
+<Base title={title} description={summary} ogImage={cover.src.src}>
+  <article>
+    <header class="project-head">
+      <div class="container">
+        <p class="eyebrow"><a href={url('/projekter/')}>Projekter</a> / {type}</p>
+        <h1 class="rule">{title}</h1>
+        <p class="lead">{summary}</p>
+      </div>
+    </header>
+
+    <figure class="project-cover">
+      <Picture
+        src={cover.src}
+        alt={cover.alt}
+        formats={['avif', 'webp']}
+        widths={[800, 1400, 2000]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <figcaption class="container">Foto: {cover.credit}</figcaption>
+    </figure>
+
+    <div class="container project-body section">
+      <dl class="facts">
+        <div><dt>Sted</dt><dd>{location}</dd></div>
+        <div><dt>År</dt><dd>{year}</dd></div>
+        {client && <div><dt>Bygherre</dt><dd>{client}</dd></div>}
+        <div>
+          <dt>Udført af</dt>
+          <dd>
+            <ul>
+              {companies.map((c) => <li><a href={url(`/virksomheder/#${c.id}`)}>{c.data.name}</a></li>)}
+            </ul>
+          </dd>
+        </div>
+        <div><dt>Type</dt><dd>{type}</dd></div>
+      </dl>
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    {
+      gallery.length > 0 && (
+        <section class="container gallery" aria-label="Flere billeder">
+          {gallery.map((photo) => (
+            <figure>
+              <Picture
+                src={photo.src}
+                alt={photo.alt}
+                formats={['avif', 'webp']}
+                widths={[600, 1000, 1400]}
+                sizes="(min-width: 48rem) 50vw, 100vw"
+              />
+              <figcaption>Foto: {photo.credit}</figcaption>
+            </figure>
+          ))}
+        </section>
+      )
+    }
+
+    <p class="container back"><a href={url('/projekter/')}>← Alle projekter</a></p>
+  </article>
+</Base>
+
+<style>
+  .project-head { padding-block: var(--space-16) var(--space-8); }
+  .project-head h1 { max-width: 22ch; }
+  .project-cover { margin: 0; }
+  .project-cover :global(img) { width: 100%; max-height: 80vh; object-fit: cover; }
+  figcaption { padding-top: var(--space-2); font-size: var(--text-sm); font-style: italic; color: var(--color-text-muted); }
+
+  .project-body { display: grid; gap: var(--space-12); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+  .project-body .prose { grid-column: span 2; }
+  @media (max-width: 40rem) { .project-body .prose { grid-column: auto; } }
+
+  .facts { margin: 0; }
+  .facts > div { padding-block: var(--space-3); border-bottom: 1px solid var(--color-border); }
+  .facts dt { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text-muted); }
+  .facts dd { margin: 0; }
+  .facts ul { margin: 0; padding: 0; list-style: none; }
+
+  .gallery { display: grid; gap: var(--space-8); grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); }
+  .gallery figure { margin: 0; }
+  .back { padding-block: var(--space-12); }
+</style>

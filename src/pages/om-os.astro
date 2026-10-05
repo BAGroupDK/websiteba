@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { management, site, timeline, values } from '../data/site';
+---
+
+<Base title="Om os" description={`Historien, ledelsen og værdierne bag ${site.name}.`}>
+  <PageHeader eyebrow="Om os" title={`Om ${site.name}`} lead="Pladsholder: Indledning om koncernen." />
+
+  <section class="section" aria-labelledby="history-title">
+    <div class="container">
+      <h2 id="history-title" class="rule">Historien</h2>
+      <ol class="timeline">
+        {
+          timeline.map((item) => (
+            <li>
+              <p class="timeline__year">{item.year}</p>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--muted" aria-labelledby="management-title">
+    <div class="container">
+      <h2 id="management-title" class="rule">Ledelsen</h2>
+      <ul class="grid grid--3 people">
+        {
+          management.map((person) => (
+            <li>
+              <h3>{person.name}</h3>
+              <p>{person.role}</p>
+              {person.email && <a href={`mailto:${person.email}`}>{person.email}</a>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--inverse" aria-labelledby="values-title">
+    <div class="container">
+      <h2 id="values-title" class="rule">Værdier</h2>
+      <ul class="grid grid--3 values">
+        {
+          values.map((value) => (
+            <li>
+              <h3>{value.title}</h3>
+              <p>{value.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .timeline {
+    margin: var(--space-12) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-8);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+  .timeline li { padding-top: var(--space-6); border-top: var(--rule-height) solid var(--color-accent); }
+  .timeline__year { margin-bottom: var(--space-2); font-size: var(--text-2xl); font-weight: var(--weight-extrabold); }
+  .timeline h3 { font-size: var(--text-lg); }
+  .timeline p:last-child { color: var(--color-text-muted); }
+
+  .people, .values { padding: 0; list-style: none; }
+  .people li { padding: var(--space-6); background: var(--color-bg); }
+  .people h3 { font-size: var(--text-lg); margin-bottom: var(--space-1); }
+  .people p { margin-bottom: var(--space-2); color: var(--color-text-muted); }
+  .values p { color: var(--ba-grey-light); }
+</style>

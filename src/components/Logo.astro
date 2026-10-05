@@ -1,0 +1,20 @@
+---
+import primary from '../assets/brand/BA_logo_primaer.svg';
+import negative from '../assets/brand/BA_logo_negativ.svg';
+import white from '../assets/brand/BA_logo_hvid.svg';
+
+interface Props {
+  /** primary: light backgrounds · negative: black · white: red or photos */
+  variant?: 'primary' | 'negative' | 'white';
+  /** Rendered height in px. Brand minimum on screen is 24. */
+  height?: number;
+  alt?: string;
+  class?: string;
+}
+
+const { variant = 'primary', height = 32, alt = 'BA Group', class: className } = Astro.props;
+const logo = { primary, negative, white }[variant];
+const width = Math.round((logo.width / logo.height) * height);
+---
+
+<img src={logo.src} width={width} height={height} alt={alt} class={className} />
