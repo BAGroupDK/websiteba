@@ -142,7 +142,6 @@
     .grid > *,
     .figures__item,
     .history__list li,
-    .timeline li,
     .facts,
     .prose,
     .gallery figure,
@@ -164,6 +163,42 @@
       animation-range: entry 40% cover 40%;
     }
 
+    /* History timeline (Om os): the red thread fills down to the middle of
+       the screen, and each year lights up when the thread reaches it.
+       The inset shrinks the "viewport" to its top half, so progress is
+       measured against the screen's centre line. */
+    .history-timeline {
+      view-timeline: --history block;
+      view-timeline-inset: 0% 50%;
+    }
+    .history-timeline::after {
+      animation: thread-fill linear both;
+      animation-timeline: --history;
+      animation-range: entry 0% exit 0%;
+    }
+    .history-timeline__item {
+      --from-x: 2rem;
+      view-timeline: --step block;
+      view-timeline-inset: 0% 50%;
+    }
+    .history-timeline__marker,
+    .history-timeline__year {
+      animation-timeline: --step;
+      animation-range: entry 0% entry 15%;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+    .history-timeline__marker { animation-name: marker-on; }
+    .history-timeline__year { animation-name: year-on; }
+    .history-timeline__content {
+      animation: history-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+    }
+    @media (min-width: 48rem) {
+      .history-timeline__item:nth-child(odd) { --from-x: -2rem; }
+    }
+
     /* Paving texture drifts slightly against the scroll, like looking
        down at the ground while walking. */
     .section--inverse {
@@ -183,6 +218,26 @@
       animation-range: normal, 0 100vh;
     }
   }
+}
+
+@keyframes thread-fill {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes marker-on {
+  from { background: var(--color-bg); border-color: var(--color-border); scale: 0.75; }
+  to { background: var(--color-accent); border-color: var(--color-accent); scale: 1; }
+}
+
+@keyframes year-on {
+  from { color: var(--color-border); }
+  to { color: var(--color-text); }
+}
+
+@keyframes history-in {
+  from { opacity: 0; translate: var(--from-x) 0; }
+  to { opacity: 1; translate: 0 0; }
 }
 
 @keyframes paving-drift {

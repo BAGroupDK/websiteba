@@ -1,0 +1,101 @@
+---
+/**
+ * Vertical history timeline with a red thread. Static by default: the thread
+ * is drawn and every marker is red. motion.css makes the thread fill as you
+ * scroll and lights each marker when the thread reaches it.
+ */
+interface Props {
+  items: readonly { year: string; title: string; text: string }[];
+}
+const { items } = Astro.props;
+---
+
+<ol class="history-timeline">
+  {
+    items.map((item) => (
+      <li class="history-timeline__item">
+        <span class="history-timeline__marker" aria-hidden="true" />
+        <div class="history-timeline__content">
+          <p class="history-timeline__year">{item.year}</p>
+          <h3 class="history-timeline__title">{item.title}</h3>
+          <p class="history-timeline__text">{item.text}</p>
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .history-timeline {
+    --thread-x: 0.5rem;
+    --thread-width: 4px;
+    --marker: 1.25rem;
+    position: relative;
+    margin: var(--space-12) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* Grey track and the red thread on top of it. */
+  .history-timeline::before,
+  .history-timeline::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--thread-x) - var(--thread-width) / 2);
+    width: var(--thread-width);
+  }
+  .history-timeline::before { background: var(--color-border); }
+  .history-timeline::after {
+    background: var(--color-accent);
+    transform-origin: top center;
+  }
+
+  .history-timeline__item {
+    position: relative;
+    padding: 0 0 var(--space-12) calc(var(--thread-x) + var(--space-8));
+  }
+  .history-timeline__item:last-child { padding-bottom: 0; }
+
+  .history-timeline__marker {
+    position: absolute;
+    z-index: 1;
+    top: 0.45rem;
+    left: calc(var(--thread-x) - var(--marker) / 2);
+    width: var(--marker);
+    height: var(--marker);
+    border: var(--thread-width) solid var(--color-accent);
+    background: var(--color-accent);
+  }
+
+  .history-timeline__year {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-3xl);
+    font-weight: var(--weight-extrabold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .history-timeline__title { margin-bottom: var(--space-2); font-size: var(--text-xl); }
+  .history-timeline__text { margin: 0; color: var(--color-text-muted); }
+
+  /* Desktop: thread down the middle, events alternate left and right. */
+  @media (min-width: 48rem) {
+    .history-timeline { --thread-x: 50%; }
+    .history-timeline__item {
+      width: 50%;
+      padding: 0 var(--space-12) var(--space-16) 0;
+      text-align: right;
+    }
+    /* Neighbours sit on opposite sides, so they can overlap vertically (zigzag). */
+    .history-timeline__item + .history-timeline__item { margin-top: calc(var(--space-16) * -1.5); }
+    .history-timeline__item:nth-child(even) {
+      margin-left: 50%;
+      padding: 0 0 var(--space-16) var(--space-12);
+      text-align: left;
+    }
+    .history-timeline__item .history-timeline__marker { left: auto; right: calc(var(--marker) / -2); }
+    .history-timeline__item:nth-child(even) .history-timeline__marker { left: calc(var(--marker) / -2); right: auto; }
+    .history-timeline__text { margin-left: auto; }
+    .history-timeline__item:nth-child(even) .history-timeline__text { margin-left: 0; }
+  }
+</style>
