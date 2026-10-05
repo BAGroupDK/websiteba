@@ -76,7 +76,23 @@ const usedCompanies = companies.filter((c) => projects.some((p) => p.data.compan
       history.replaceState(null, '', query ? `?${query}` : location.pathname);
     };
 
-    for (const select of selects) select.addEventListener('change', () => apply(true));
+    // Cards glide to their new positions when the browser supports view transitions.
+    const motionOK = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    const update = () => {
+      if (!motionOK || !document.startViewTransition) return apply(true);
+      cards.forEach((card, i) => {
+        card.style.viewTransitionName = `project-card-${i}`;
+        card.style.viewTransitionClass = 'project-card';
+      });
+      document.startViewTransition(() => apply(true)).finished.finally(() =>
+        cards.forEach((card) => {
+          card.style.viewTransitionName = '';
+          card.style.viewTransitionClass = '';
+        }),
+      );
+    };
+
+    for (const select of selects) select.addEventListener('change', update);
     filters.hidden = false;
     apply(false);
   }

@@ -1,6 +1,7 @@
 @import "@fontsource-variable/montserrat/wght.css";
 @import "@fontsource-variable/montserrat/wght-italic.css";
 @import "./tokens.css";
+@import "./motion.css";
 
 *, *::before, *::after { box-sizing: border-box; }
 

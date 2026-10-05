@@ -41,7 +41,10 @@ const featured = await getFeaturedProjects(3);
         keyFigures.map((f) => (
           <div class="figures__item">
             <dt>{f.label}</dt>
-            <dd>{f.value}</dd>
+            <dd>
+              <span class="sr-only">{f.value}</span>
+              <span aria-hidden="true" data-count={f.value}>{f.value}</span>
+            </dd>
           </div>
         ))
       }
@@ -115,6 +118,7 @@ const featured = await getFeaturedProjects(3);
     display: grid;
     min-height: min(85vh, 50rem);
     align-items: end;
+    overflow: hidden;
     color: var(--color-text-inverse);
     background: var(--color-bg-inverse);
   }
@@ -155,6 +159,7 @@ const featured = await getFeaturedProjects(3);
     font-size: var(--text-3xl);
     font-weight: var(--weight-extrabold);
     line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
   .figures__item dt { color: var(--ba-grey-light); }
 

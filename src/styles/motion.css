@@ -1,0 +1,177 @@
+/*
+ * Motion system.
+ *
+ * Principles:
+ * - The red line is the signature: it draws itself under headings.
+ * - Content rises gently into place; nothing bounces, spins or flashes.
+ * - The logo is never animated (brand profile: no distortion).
+ * - Progressive enhancement only: without support the page is simply static,
+ *   and nothing is ever hidden waiting for JavaScript.
+ * - Everything sits behind prefers-reduced-motion: no-preference.
+ */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(1.5rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes settle {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes slide-from-right {
+  from { transform: translateX(2rem); }
+}
+
+@keyframes slide-to-left {
+  to { transform: translateX(-2rem); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---------------------------------------------------------------
+   * Page transitions between pages (cross-document View Transitions).
+   * Header stays put; content slides softly; a project photo morphs
+   * from its card into the project page (see src/scripts/motion.ts).
+   * ------------------------------------------------------------- */
+  @view-transition {
+    navigation: auto;
+  }
+
+  .header { view-transition-name: site-header; }
+
+  ::view-transition-old(root) {
+    animation: var(--duration-fast) var(--ease-in-out) both fade-out,
+      var(--duration-base) var(--ease-in-out) both slide-to-left;
+  }
+  ::view-transition-new(root) {
+    animation: var(--duration-base) var(--ease-out) 60ms both fade-in,
+      var(--duration-base) var(--ease-out) 60ms both slide-from-right;
+  }
+  .project-cover img { view-transition-name: project-photo; }
+  ::view-transition-group(project-photo) {
+    animation-duration: var(--duration-base);
+    animation-timing-function: var(--ease-out);
+  }
+  /* Project filter: cards glide to their new positions. */
+  ::view-transition-group(*.project-card) {
+    animation-duration: var(--duration-base);
+    animation-timing-function: var(--ease-out);
+  }
+
+  /* ---------------------------------------------------------------
+   * Intro on page load: hero and page headers.
+   * ------------------------------------------------------------- */
+  .hero__img {
+    animation: settle var(--duration-hero) var(--ease-out) both;
+  }
+  .hero__eyebrow,
+  .hero__title,
+  .hero__lead,
+  .hero__actions,
+  .page-header .eyebrow,
+  .page-header h1,
+  .page-header .lead,
+  .project-head .eyebrow,
+  .project-head h1,
+  .project-head .lead {
+    animation: rise var(--duration-slow) var(--ease-out) both;
+  }
+  .hero__title, .page-header h1, .project-head h1 { animation-delay: var(--stagger); }
+  .hero__lead, .page-header .lead, .project-head .lead { animation-delay: calc(var(--stagger) * 2); }
+  .hero__actions { animation-delay: calc(var(--stagger) * 3); }
+
+  /* The red line draws itself after its heading has landed. */
+  .rule::after {
+    transform-origin: left center;
+    animation: draw var(--duration-slow) var(--ease-out) calc(var(--stagger) * 4) both;
+  }
+
+  /* ---------------------------------------------------------------
+   * Micro-interactions.
+   * ------------------------------------------------------------- */
+  .button {
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  .button:active { transform: translateY(1px); }
+
+  .project-card img {
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+  .project-card:hover img,
+  .project-card:focus-within img {
+    transform: scale(1.04);
+  }
+
+  /* translate (not transform): the scroll reveal owns transform. */
+  .company-card {
+    transition: translate var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+  }
+  .company-card:hover {
+    translate: 0 -4px;
+    box-shadow: 0 1rem 2rem -1rem rgb(19 19 19 / 0.25);
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Scroll-driven reveals. Browsers without scroll timelines simply
+ * show everything; no JavaScript involved.
+ * ------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .grid > *,
+    .figures__item,
+    .history__list li,
+    .timeline li,
+    .facts,
+    .prose,
+    .gallery figure,
+    .contact__list,
+    .contact__big {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+
+    /* Headings below the fold draw their red line as they scroll in.
+       Headings visible on load keep the time-based draw above. */
+    .section .rule {
+      view-timeline-name: --rule;
+    }
+    .section .rule::after {
+      animation: draw linear both;
+      animation-timeline: --rule;
+      animation-range: entry 40% cover 40%;
+    }
+
+    /* Hero photo drifts slightly slower than the page (parallax). */
+    .hero__img {
+      animation:
+        settle var(--duration-hero) var(--ease-out) both,
+        parallax linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range: normal, 0 100vh;
+    }
+  }
+}
+
+@keyframes parallax {
+  to { translate: 0 15vh; }
+}
