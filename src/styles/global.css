@@ -53,7 +53,24 @@ img, svg { display: block; max-width: 100%; height: auto; }
 }
 .section { padding-block: var(--space-section); }
 .section--muted { background: var(--color-bg-muted); }
-.section--inverse { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+.section--inverse {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+/* Paving texture, strongest in the top-right corner and fading out. */
+.section--inverse::before {
+  content: "";
+  position: absolute;
+  inset: -3rem 0;
+  z-index: -1;
+  background-image: var(--texture-paving);
+  opacity: var(--texture-opacity);
+  mask-image: linear-gradient(to bottom left, #000 0%, rgb(0 0 0 / 0.35) 55%, transparent 90%);
+  pointer-events: none;
+}
 /* On black, links are white (red on black fails contrast). */
 .section--inverse a { color: var(--color-text-inverse); }
 
