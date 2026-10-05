@@ -29,7 +29,7 @@ const { name, summary, logo } = company.data;
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: var(--space-8);
+    padding: var(--space-6);
     border-top: var(--rule-height) solid var(--color-accent);
     background: var(--color-bg);
   }
@@ -39,7 +39,8 @@ const { name, summary, logo } = company.data;
     min-height: 56px;
     margin-bottom: var(--space-6);
   }
-  .company-card__title { font-size: var(--text-xl); }
+  /* Long Danish compounds ("Serviceafdelingen") must never overflow a narrow card. */
+  .company-card__title { font-size: var(--text-lg); hyphens: auto; overflow-wrap: break-word; }
   .company-card__title a { color: var(--color-text); text-decoration: none; }
   .company-card__title a::after { content: ""; position: absolute; inset: 0; }
   .company-card:hover .company-card__title a { text-decoration: underline; text-decoration-color: var(--color-accent); }

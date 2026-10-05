@@ -29,11 +29,14 @@ export const nav = [
   { href: '/kontakt/', label: 'Kontakt' },
 ] as const;
 
-/** Front page key figures. */
+/**
+ * Front page key figures. `computed: 'companyCount'` is filled in from the
+ * companies collection, so it can never drift from the actual list.
+ */
 export const keyFigures = [
   { value: '00', label: 'Pladsholder: år i branchen' },
   { value: '000', label: 'Pladsholder: medarbejdere' },
-  { value: '0', label: 'Pladsholder: virksomheder i koncernen' },
+  { value: '', label: 'Virksomheder i koncernen', computed: 'companyCount' },
   { value: '000', label: 'Pladsholder: projekter om året' },
 ] as const;
 

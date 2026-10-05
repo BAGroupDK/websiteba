@@ -42,6 +42,9 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* In-page anchor jumps (e.g. the company index) glide instead of jump. */
+  html { scroll-behavior: smooth; }
+
   /* ---------------------------------------------------------------
    * Page transitions between pages (cross-document View Transitions).
    * Header stays put; content slides softly; a project photo morphs

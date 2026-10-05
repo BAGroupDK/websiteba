@@ -3,7 +3,7 @@ title: "Pladsholder: Eksempelprojekt – boligområde"
 location: "Pladsholder: By"
 year: 2024
 # client: "Bygherre"   # only when the name is cleared for publication
-companies: [ba-brolaegning, virksomhed-2]
+companies: [ba-brolaegning, ba-anlaeg]
 type: Boligområder
 summary: "Pladsholder: Kort beskrivelse af projektet til kort og oversigter."
 featured: true

@@ -3,7 +3,7 @@ title: "Pladsholder: Eksempelprojekt – vej"
 location: "Pladsholder: By"
 year: 2024
 # client: "Bygherre"   # only when the name is cleared for publication
-companies: [virksomhed-2]
+companies: [ba-anlaeg]
 type: Veje og stier
 summary: "Pladsholder: Kort beskrivelse af projektet til kort og oversigter."
 featured: true

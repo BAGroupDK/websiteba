@@ -3,7 +3,7 @@ title: "Pladsholder: Eksempelprojekt – erhverv"
 location: "Pladsholder: By"
 year: 2023
 # client: "Bygherre"   # only when the name is cleared for publication
-companies: [virksomhed-3]
+companies: [ba-beton, ba-toemrer]
 type: Erhverv
 summary: "Pladsholder: Kort beskrivelse af projektet til kort og oversigter."
 featured: false

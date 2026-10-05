@@ -77,6 +77,8 @@ img, svg { display: block; max-width: 100%; height: auto; }
 
 .grid { display: grid; gap: var(--space-8); margin-top: var(--space-12); }
 .grid--3 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
+/* Four across on desktop (8 companies → 4 + 4), two on tablets, one on phones. */
+.grid--4 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: var(--space-6); }
 
 .section-head {
   display: flex;
