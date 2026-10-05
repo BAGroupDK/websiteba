@@ -5,7 +5,9 @@ import sitemap from '@astrojs/sitemap';
 // SITE and BASE are injected by the deploy workflow from actions/configure-pages,
 // so the same build works at bagroupdk.github.io/websiteba/ (before DNS) and
 // at baaps.dk/ (after the custom domain is set). Locally they default to baaps.dk.
-const site = process.env.SITE ?? 'https://baaps.dk';
+// configure-pages reports http:// until "Enforce HTTPS" is on, but Pages always
+// serves the site over HTTPS, so canonical/OG/sitemap URLs are forced to https.
+const site = (process.env.SITE || 'https://baaps.dk').replace(/^http:\/\//, 'https://');
 const base = process.env.BASE || '/';
 
 export default defineConfig({
