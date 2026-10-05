@@ -9,6 +9,7 @@ Corporate website for BA Group. Repo: `BAGroupDK/websiteba` (public).
 - **The repo is public (GitHub Free).** Only approved content may be committed: never drafts, never unconfirmed client (bygherre) names, never photos without documented rights. No LICENSE file; "© BA Group. All rights reserved." in README and footer.
 - **`main` is protected by a ruleset:** work in a branch → PR → squash merge. The `build` check (`.github/workflows/ci.yml`) is meant to be a required status check.
 - **Git identity is the GitHub noreply address** (set globally). Never commit with any other e-mail; never override `user.email` in this repo.
+- **Name: "BA Group"** everywhere on the site (not "BA-koncernen"). The group is the main character; the companies are sections under it.
 - **Language:** code, comments, commit messages and docs in English. All visible site text in Danish (`lang="da"`). An English version may come later – keep strings in components/content, not scattered in logic.
 - **DanDomain is domain + DNS only** (DNSSEC on, no ALIAS/ANAME). The bundled web hotel/WordPress is not used. DNS changes only after the site is deployed:
   - `baaps.dk` A → 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153
@@ -26,6 +27,8 @@ Corporate website for BA Group. Repo: `BAGroupDK/websiteba` (public).
 - Colours are design tokens in `src/styles/tokens.css`. Use the tokens, never raw hex values in components.
 - Red (`--color-accent`) is an accent: logo, buttons, links, the red line. **Never red text on black** (3.6:1 – fails WCAG AA for normal text).
 - Logo: primary on light backgrounds, negative on black, white on red/photos. Never redraw, recolour, rotate or stretch it. Clear space = ¼ of logo height; min 24 px high on screen.
+- Company names (BA Brolægning, …) are set as text in Montserrat, never locked up with the logo – the brand profile forbids adding text to the logo. Whether companies get their own logos is undecided.
+- Paving texture (`--texture-paving` in `tokens.css`, files in `src/assets/patterns/`) is applied automatically to `.section--inverse`. The pattern is **bueforbandt** (decided). Only on BA black: `bueforbandt.svg` occludes with `#131313`.
 - Font: Montserrat (SIL OFL 1.1 – redistribution allowed), self-hosted via the `@fontsource-variable/montserrat` npm package. No requests to Google Fonts. Headings ExtraBold (800), subheadings SemiBold (600), body Regular (400), ≥16 px, line-height ~1.5.
 
 ## Content

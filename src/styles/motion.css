@@ -161,6 +161,16 @@
       animation-range: entry 40% cover 40%;
     }
 
+    /* Paving texture drifts slightly against the scroll, like looking
+       down at the ground while walking. */
+    .section--inverse {
+      view-timeline-name: --paving;
+    }
+    .section--inverse::before {
+      animation: paving-drift linear both;
+      animation-timeline: --paving;
+    }
+
     /* Hero photo drifts slightly slower than the page (parallax). */
     .hero__img {
       animation:
@@ -170,6 +180,11 @@
       animation-range: normal, 0 100vh;
     }
   }
+}
+
+@keyframes paving-drift {
+  from { translate: 0 2.5rem; }
+  to { translate: 0 -2.5rem; }
 }
 
 @keyframes parallax {
