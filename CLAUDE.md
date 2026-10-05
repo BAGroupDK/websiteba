@@ -28,7 +28,7 @@ Corporate website for BA Group. Repo: `BAGroupDK/websiteba` (public).
 - Red (`--color-accent`) is an accent: logo, buttons, links, the red line. **Never red text on black** (3.6:1 – fails WCAG AA for normal text).
 - Logo: primary on light backgrounds, negative on black, white on red/photos. Never redraw, recolour, rotate or stretch it. Clear space = ¼ of logo height; min 24 px high on screen.
 - Company names (BA Brolægning, …) are set as text in Montserrat, never locked up with the logo – the brand profile forbids adding text to the logo. Whether companies get their own logos is undecided.
-- Paving texture (`--texture-paving` in `tokens.css`, files in `src/assets/patterns/`) is applied automatically to `.section--inverse`. Only on BA black: `bueforbandt.svg` occludes with `#131313`. Bueforbandt vs. sildeben is not final yet.
+- Paving texture (`--texture-paving` in `tokens.css`, files in `src/assets/patterns/`) is applied automatically to `.section--inverse`. The pattern is **bueforbandt** (decided). Only on BA black: `bueforbandt.svg` occludes with `#131313`.
 - Font: Montserrat (SIL OFL 1.1 – redistribution allowed), self-hosted via the `@fontsource-variable/montserrat` npm package. No requests to Google Fonts. Headings ExtraBold (800), subheadings SemiBold (600), body Regular (400), ≥16 px, line-height ~1.5.
 
 ## Content
