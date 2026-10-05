@@ -56,6 +56,9 @@ const image = new URL(ogImage ?? url('/og-image.png'), Astro.site).href;
       <slot />
     </main>
     <Footer />
+    <script>
+      import '../scripts/motion';
+    </script>
   </body>
 </html>
 

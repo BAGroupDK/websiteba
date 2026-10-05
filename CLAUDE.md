@@ -43,6 +43,8 @@ Corporate website for BA Group. Repo: `BAGroupDK/websiteba` (public).
 - Internal links must go through `url()` from `src/lib/url.ts` so the site works both at `bagroupdk.github.io/websiteba/` and at `baaps.dk/`. `SITE` and `BASE` are injected at build time by the deploy workflow from `actions/configure-pages`.
 - Accessibility target: WCAG 2.2 AA. Skip link, visible focus, semantic landmarks, `aria-current`, alt text, `prefers-reduced-motion`.
 - Keep JavaScript to a minimum. The site must work without JS (the project filter is progressive enhancement).
+- Motion lives in `src/styles/motion.css` (+ `src/scripts/motion.ts` for count-up and the card→project photo morph). Rules: everything behind `prefers-reduced-motion: no-preference`; scroll-driven animations inside `@supports (animation-timeline: view())`; animate only `transform`/`opacity`/`translate`; never animate the logo; the red line is the motion signature. Use the motion tokens in `tokens.css`.
+- CSS is minified with esbuild, not Lightning CSS: Lightning CSS folds `animation-timeline` into the `animation` shorthand, which browsers reject.
 - Actions are pinned to full commit SHAs (with a version comment); Dependabot keeps them current.
 
 ## Commands

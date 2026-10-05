@@ -23,6 +23,10 @@ export default defineConfig({
     build: {
       // Never turn assets (fonts, images, scripts) into data: URIs.
       assetsInlineLimit: 0,
+      // Lightning CSS folds animation-timeline into the animation shorthand,
+      // which browsers do not accept yet – that silently kills scroll-driven
+      // animations. esbuild keeps the longhands.
+      cssMinify: 'esbuild',
     },
   },
   security: {

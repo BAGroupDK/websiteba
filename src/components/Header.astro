@@ -53,15 +53,28 @@ const isCurrent = (href: string) => path.startsWith(url(href));
     list-style: none;
   }
   .header__nav a {
+    position: relative;
     display: inline-block;
     padding-block: var(--space-2);
-    border-bottom: 3px solid transparent;
     color: var(--color-text);
     font-weight: var(--weight-semibold);
     text-decoration: none;
   }
-  .header__nav a:hover { border-bottom-color: var(--color-border); }
-  .header__nav a[aria-current='page'] { border-bottom-color: var(--color-accent); }
+  /* Underline draws from the left – a small echo of the red line. */
+  .header__nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: var(--color-border);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .header__nav a:hover::after { transform: scaleX(1); }
+  .header__nav a[aria-current='page']::after { background: var(--color-accent); transform: scaleX(1); }
   @media (max-width: 30rem) {
     .header__nav { gap: var(--space-1) var(--space-4); font-size: 0.9375rem; }
   }
