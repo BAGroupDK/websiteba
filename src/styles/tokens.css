@@ -60,7 +60,7 @@
      Only for --ba-black backgrounds:
      bueforbandt.svg occludes overlapping fans with #131313. */
   --texture-paving: url("../assets/patterns/bueforbandt.svg");
-  --texture-opacity: 0.09;
+  --texture-opacity: 0.12;
 
   /* Motion. One rhythm for the whole site: decisive start, soft landing. */
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);

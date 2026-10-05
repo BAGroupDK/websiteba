@@ -60,7 +60,8 @@ img, svg { display: block; max-width: 100%; height: auto; }
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
 }
-/* Paving texture, strongest in the top-right corner and fading out. */
+/* Paving texture: strongest at the right, never fading out completely.
+   Horizontal fade (not diagonal) so low, wide sections still show it. */
 .section--inverse::before {
   content: "";
   position: absolute;
@@ -68,7 +69,7 @@ img, svg { display: block; max-width: 100%; height: auto; }
   z-index: -1;
   background-image: var(--texture-paving);
   opacity: var(--texture-opacity);
-  mask-image: linear-gradient(to bottom left, #000 0%, rgb(0 0 0 / 0.35) 55%, transparent 90%);
+  mask-image: linear-gradient(to left, #000 0%, rgb(0 0 0 / 0.7) 45%, rgb(0 0 0 / 0.35) 100%);
   pointer-events: none;
 }
 /* On black, links are white (red on black fails contrast). */
