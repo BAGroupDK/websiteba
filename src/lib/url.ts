@@ -8,8 +8,3 @@ export function url(path = '/'): string {
   const clean = path.startsWith('/') ? path : `/${path}`;
   return `${base}${clean}`;
 }
-
-/** Absolute URL (for Open Graph, canonical, sitemap-like uses). */
-export function absoluteUrl(path = '/'): string {
-  return new URL(url(path), import.meta.env.SITE).href;
-}
