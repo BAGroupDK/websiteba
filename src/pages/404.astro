@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+---
+
+<Base title="Siden findes ikke" noindex>
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Fejl 404</p>
+      <h1 class="rule">Siden findes ikke</h1>
+      <p class="lead">Siden er måske flyttet, eller adressen er skrevet forkert.</p>
+      <p><a class="button" href={url('/')}>Gå til forsiden</a></p>
+    </div>
+  </section>
+</Base>

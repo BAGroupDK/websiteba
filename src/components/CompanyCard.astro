@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import type { Company } from '../lib/content';
+import { url } from '../lib/url';
+
+interface Props {
+  company: Company;
+}
+const { company } = Astro.props;
+const { name, summary, logo } = company.data;
+---
+
+<article class="company-card">
+  {
+    logo && (
+      <div class="company-card__logo">
+        <Image src={logo} alt="" height={56} />
+      </div>
+    )
+  }
+  <h3 class="company-card__title">
+    <a href={url(`/virksomheder/#${company.id}`)}>{name}</a>
+  </h3>
+  <p>{summary}</p>
+</article>
+
+<style>
+  .company-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-8);
+    border-top: var(--rule-height) solid var(--color-accent);
+    background: var(--color-bg);
+  }
+  .company-card__logo {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    margin-bottom: var(--space-6);
+  }
+  .company-card__title { font-size: var(--text-xl); }
+  .company-card__title a { color: var(--color-text); text-decoration: none; }
+  .company-card__title a::after { content: ""; position: absolute; inset: 0; }
+  .company-card:hover .company-card__title a { text-decoration: underline; text-decoration-color: var(--color-accent); }
+  .company-card:focus-within { outline: 3px solid var(--color-focus); outline-offset: 4px; }
+  .company-card__title a:focus-visible { outline: none; }
+  .company-card p { margin: 0; color: var(--color-text-muted); }
+</style>

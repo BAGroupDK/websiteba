@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+import { getCompanies } from '../lib/content';
+import { url } from '../lib/url';
+
+const companies = await getCompanies();
+---
+
+<Base title="Kontakt" description={`Kontakt ${site.name}.`}>
+  <PageHeader eyebrow="Kontakt" title="Kontakt os" lead="Pladsholder: Hvem man kontakter, og hvornår vi svarer." />
+
+  <section class="section" aria-labelledby="group-title">
+    <div class="container contact">
+      <div>
+        <h2 id="group-title" class="rule">{site.name}</h2>
+        <ul class="contact__big">
+          <li><a href={`tel:${site.phone.href}`}>{site.phone.display}</a></li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="contact__label">Adresse</h2>
+        <address>
+          {site.name}<br />
+          {site.address.street}<br />
+          {site.address.postalCode} {site.address.city}
+        </address>
+        <h2 class="contact__label">CVR</h2>
+        <p>{site.cvr}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--muted" aria-labelledby="companies-title">
+    <div class="container">
+      <h2 id="companies-title" class="rule">Kontakt en virksomhed direkte</h2>
+      <ul class="grid grid--3 companies">
+        {
+          companies.map((c) => (
+            <li>
+              <h3>{c.data.name}</h3>
+              <p class="placeholder-note">Pladsholder: telefon og e-mail</p>
+              <p><a href={url(`/virksomheder/#${c.id}`)}>Om {c.data.name}</a></p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact { display: grid; gap: var(--space-12); grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+  .contact__big { margin: var(--space-8) 0 0; padding: 0; list-style: none; font-size: var(--text-2xl); font-weight: var(--weight-extrabold); }
+  .contact__big li + li { margin-top: var(--space-2); }
+  .contact__big a { overflow-wrap: anywhere; text-decoration: none; color: var(--color-text); }
+  .contact__big a:hover { text-decoration: underline; text-decoration-color: var(--color-accent); }
+  .contact__label { margin: var(--space-6) 0 var(--space-1); font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text-muted); }
+  .contact__label:first-child { margin-top: 0; }
+  address { font-style: normal; }
+  .companies { padding: 0; list-style: none; }
+  .companies li { padding: var(--space-6); background: var(--color-bg); }
+  .companies h3 { font-size: var(--text-lg); }
+</style>

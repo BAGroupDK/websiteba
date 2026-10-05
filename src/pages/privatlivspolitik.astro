@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Privatlivspolitik" description={`Sådan behandler ${site.name} personoplysninger på baaps.dk.`}>
+  <PageHeader eyebrow="Privatliv" title="Privatlivspolitik" lead="Kort fortalt: Vi bruger ingen cookies og sporer dig ikke." />
+
+  <div class="section">
+    <div class="container prose">
+      <p class="placeholder-note">Pladsholder: Gennemgås juridisk og dateres før lancering. Senest opdateret: 00.00.0000</p>
+
+      <h2>Dataansvarlig</h2>
+      <p>
+        {site.name}, {site.address.street}, {site.address.postalCode} {site.address.city}, CVR {site.cvr}.<br />
+        Spørgsmål om privatliv: <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+
+      <h2>Ingen cookies og ingen sporing</h2>
+      <p>
+        Hjemmesiden sætter ingen cookies og bruger ingen analyseværktøjer, annoncenetværk, sociale medie-knapper eller
+        andre tjenester fra tredjeparter. Skrifttyper og billeder hentes fra vores egen hjemmeside – ikke fra fx Google.
+        Derfor beder vi dig heller ikke om samtykke til cookies.
+      </p>
+
+      <h2>Hosting hos GitHub</h2>
+      <p>
+        Hjemmesiden hostes på GitHub Pages, som leveres af GitHub, Inc. (USA). Når du besøger siden, modtager GitHub –
+        som ved ethvert besøg på en hjemmeside – teknisk nødvendige oplysninger som din IP-adresse, tidspunkt og hvilken
+        side der blev hentet. GitHub bruger oplysningerne til at levere siden og beskytte tjenesten mod misbrug. Vi har
+        ikke selv adgang til disse oplysninger.
+      </p>
+      <p>
+        Behandlingen sker på grundlag af vores legitime interesse i at kunne vise hjemmesiden sikkert
+        (databeskyttelsesforordningens artikel 6, stk. 1, litra f). Overførsel til USA sker efter GitHubs vilkår,
+        herunder EU-U.S. Data Privacy Framework. Læs mere i
+        <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener"
+          >GitHubs privatlivserklæring</a
+        >.
+      </p>
+
+      <h2>Når du skriver eller ringer til os</h2>
+      <p>
+        Hjemmesiden har ingen formularer. Hvis du sender os en e-mail eller ringer, bruger vi de oplysninger, du giver
+        os, til at besvare din henvendelse, og vi gemmer dem ikke længere end nødvendigt.
+      </p>
+
+      <h2>Dine rettigheder</h2>
+      <p>
+        Du har ret til at få indsigt i, berigtige og få slettet oplysninger om dig, og til at gøre indsigelse mod
+        behandlingen. Kontakt os på <a href={`mailto:${site.email}`}>{site.email}</a>. Du kan klage til
+        <a href="https://www.datatilsynet.dk" rel="noopener">Datatilsynet</a>.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .prose h2 { margin-top: var(--space-12); font-size: var(--text-xl); }
+</style>
