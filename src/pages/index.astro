@@ -10,6 +10,10 @@ import hero from '../assets/images/hero-placeholder.jpg';
 
 const companies = await getCompanies();
 const featured = await getFeaturedProjects(3);
+const figures = keyFigures.map((f) => ({
+  label: f.label,
+  value: 'computed' in f && f.computed === 'companyCount' ? String(companies.length) : f.value,
+}));
 ---
 
 <Base>
@@ -38,7 +42,7 @@ const featured = await getFeaturedProjects(3);
   <section class="section--inverse figures" aria-label="Nøgletal">
     <dl class="container figures__list">
       {
-        keyFigures.map((f) => (
+        figures.map((f) => (
           <div class="figures__item">
             <dt>{f.label}</dt>
             <dd>
@@ -55,7 +59,7 @@ const featured = await getFeaturedProjects(3);
     <div class="container">
       <p class="eyebrow">Koncernen</p>
       <h2 id="companies-title" class="rule">Virksomhederne i {site.name}</h2>
-      <div class="grid grid--3">
+      <div class="grid grid--4">
         {companies.map((company) => <CompanyCard company={company} />)}
       </div>
     </div>
