@@ -163,18 +163,22 @@
       animation-range: entry 40% cover 40%;
     }
 
-    /* History timeline (Om os): the red thread fills down to the middle of
-       the screen, and each year lights up when the thread reaches it.
+    /* History timeline (Om os): each swerving segment of the red thread draws
+       itself as it passes the middle of the screen, and each year lights up
+       when the thread reaches it.
        The inset shrinks the "viewport" to its top half, so progress is
        measured against the screen's centre line. */
-    .history-timeline {
-      view-timeline: --history block;
+    .history-timeline__segment {
+      view-timeline: --segment block;
       view-timeline-inset: 0% 50%;
     }
-    .history-timeline::after {
-      animation: thread-fill linear both;
-      animation-timeline: --history;
-      animation-range: entry 0% exit 0%;
+    /* Revealed top-down with clip-path rather than stroke-dashoffset:
+       dashes break with non-scaling strokes on a stretched SVG. */
+    .history-timeline__thread {
+      animation: thread-draw linear both;
+      animation-timeline: --segment;
+      /* With the inset, "entry" is exactly the segment passing the centre line. */
+      animation-range: entry 0% entry 100%;
     }
     .history-timeline__item {
       --from-x: 2rem;
@@ -220,9 +224,9 @@
   }
 }
 
-@keyframes thread-fill {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
+@keyframes thread-draw {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
 
 @keyframes marker-on {

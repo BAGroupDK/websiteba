@@ -1,20 +1,37 @@
 ---
 /**
- * Vertical history timeline with a red thread. Static by default: the thread
- * is drawn and every marker is red. motion.css makes the thread fill as you
- * scroll and lights each marker when the thread reaches it.
+ * Vertical history timeline with a swerving red thread. Static by default:
+ * the thread is drawn and every marker is red. motion.css makes the thread
+ * draw itself as you scroll and lights each marker when the thread reaches it.
+ *
+ * The thread is one SVG segment per entry, stretched from its marker to the
+ * next one, so it always meets the markers whatever the text length. Each
+ * segment swerves out into the empty side and back.
  */
 interface Props {
   items: readonly { year: string; title: string; text: string }[];
 }
 const { items } = Astro.props;
+// Out to one side and back again: a soft S that leaves and returns to the centre line.
+// y only ever increases along the curve, so revealing it top-down looks like drawing it.
+const swerve = 'M50 0 C50 25 96 25 96 50 C96 75 50 75 50 100';
 ---
 
 <ol class="history-timeline">
   {
-    items.map((item) => (
+    items.map((item, i) => (
       <li class="history-timeline__item">
         <span class="history-timeline__marker" aria-hidden="true" />
+        {i < items.length - 1 && (
+          <span class="history-timeline__segment" aria-hidden="true">
+            <svg class="history-timeline__track" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+              <path d={swerve} />
+            </svg>
+            <svg class="history-timeline__thread" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+              <path d={swerve} />
+            </svg>
+          </span>
+        )}
         <div class="history-timeline__content">
           <p class="history-timeline__year">{item.year}</p>
           <h3 class="history-timeline__title">{item.title}</h3>
@@ -27,46 +44,67 @@ const { items } = Astro.props;
 
 <style>
   .history-timeline {
-    --thread-x: 0.5rem;
+    /* How far the curve swings out, as the SVG's full width. */
+    --swerve-width: 2.5rem;
     --thread-width: 4px;
     --marker: 1.25rem;
+    --marker-top: 0.45rem;
+    /* Vertical overlap between neighbouring items (desktop zigzag). */
+    --overlap: 0rem;
     position: relative;
     margin: var(--space-12) 0 0;
     padding: 0;
     list-style: none;
-  }
-  /* Grey track and the red thread on top of it. */
-  .history-timeline::before,
-  .history-timeline::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: calc(var(--thread-x) - var(--thread-width) / 2);
-    width: var(--thread-width);
-  }
-  .history-timeline::before { background: var(--color-border); }
-  .history-timeline::after {
-    background: var(--color-accent);
-    transform-origin: top center;
+    /* Entries slide in from the side; never let that widen the page.
+       clip (not hidden) so this doesn't become a scroll container. */
+    overflow-x: clip;
   }
 
   .history-timeline__item {
+    /* Where the thread sits inside this item (mobile: near the left edge). */
+    --thread-local: 1.25rem;
     position: relative;
-    padding: 0 0 var(--space-12) calc(var(--thread-x) + var(--space-8));
+    padding: 0 0 var(--space-12) calc(var(--thread-local) + var(--swerve-width) / 2 + var(--space-4));
   }
   .history-timeline__item:last-child { padding-bottom: 0; }
 
   .history-timeline__marker {
     position: absolute;
     z-index: 1;
-    top: 0.45rem;
-    left: calc(var(--thread-x) - var(--marker) / 2);
+    top: var(--marker-top);
+    left: calc(var(--thread-local) - var(--marker) / 2);
     width: var(--marker);
     height: var(--marker);
     border: var(--thread-width) solid var(--color-accent);
     background: var(--color-accent);
   }
+
+  /* From the centre of this marker to the centre of the next one. */
+  .history-timeline__segment {
+    position: absolute;
+    top: calc(var(--marker-top) + var(--marker) / 2);
+    left: calc(var(--thread-local) - var(--swerve-width) / 2);
+    width: var(--swerve-width);
+    height: calc(100% - var(--overlap));
+    pointer-events: none;
+  }
+  /* Grey track and the red thread on top. The SVG is stretched to fit, so the
+     stroke must not scale with it (that would make it thick and thin). */
+  .history-timeline__segment svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: none;
+    stroke-width: var(--thread-width);
+    stroke-linecap: round;
+  }
+  .history-timeline__segment path { vector-effect: non-scaling-stroke; }
+  .history-timeline__track { stroke: var(--color-border); }
+  .history-timeline__thread { stroke: var(--color-accent); }
+  /* Alternate the swerve direction from entry to entry. */
+  .history-timeline__item:nth-child(even) .history-timeline__segment { transform: scaleX(-1); }
 
   .history-timeline__year {
     margin: 0 0 var(--space-2);
@@ -78,23 +116,26 @@ const { items } = Astro.props;
   .history-timeline__title { margin-bottom: var(--space-2); font-size: var(--text-xl); }
   .history-timeline__text { margin: 0; color: var(--color-text-muted); }
 
-  /* Desktop: thread down the middle, events alternate left and right. */
+  /* Desktop: thread down the middle, entries zigzag left and right, and the
+     curve always swings out into the empty side. */
   @media (min-width: 48rem) {
-    .history-timeline { --thread-x: 50%; }
+    .history-timeline {
+      --swerve-width: 14rem;
+      --overlap: calc(var(--space-16) * 1.5);
+    }
     .history-timeline__item {
+      --thread-local: 100%;
       width: 50%;
       padding: 0 var(--space-12) var(--space-16) 0;
       text-align: right;
     }
-    /* Neighbours sit on opposite sides, so they can overlap vertically (zigzag). */
-    .history-timeline__item + .history-timeline__item { margin-top: calc(var(--space-16) * -1.5); }
+    .history-timeline__item + .history-timeline__item { margin-top: calc(var(--overlap) * -1); }
     .history-timeline__item:nth-child(even) {
+      --thread-local: 0%;
       margin-left: 50%;
       padding: 0 0 var(--space-16) var(--space-12);
       text-align: left;
     }
-    .history-timeline__item .history-timeline__marker { left: auto; right: calc(var(--marker) / -2); }
-    .history-timeline__item:nth-child(even) .history-timeline__marker { left: calc(var(--marker) / -2); right: auto; }
     .history-timeline__text { margin-left: auto; }
     .history-timeline__item:nth-child(even) .history-timeline__text { margin-left: 0; }
   }
