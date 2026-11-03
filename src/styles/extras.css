@@ -117,3 +117,73 @@
   .featured-carousel[data-live] [data-on] .featured__plate > .media-fill { animation: drift 8s ease-out both; }
 }
 @keyframes drift { from { scale: 1.08; } to { scale: 1; } }
+
+/* ---- Phones and tablets -------------------------------------------------------------------- */
+
+/* The hero's grid column follows the screen, not the widest child (the figures). */
+.hero { grid-template-columns: minmax(0, 1fr); }
+
+/* Header: below 48rem the menu folds behind a button (added by site.ts; without JS the links simply wrap). */
+.menu-toggle { display: none; }
+@media (max-width: 47.99rem) {
+  #site .header__inner { flex-wrap: nowrap; }
+  .js .menu-toggle {
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    min-height: 44px; padding: 0 var(--space-3); margin-right: calc(var(--space-3) * -1);
+    border: 0; background: none; color: inherit; font: var(--weight-semibold) 1rem / 1 var(--font-sans); cursor: pointer;
+  }
+  .menu-toggle__bars, .menu-toggle__bars::before, .menu-toggle__bars::after { display: block; width: 22px; height: 2px; background: currentColor; transition: transform 0.25s ease, opacity 0.2s; }
+  .menu-toggle__bars { position: relative; }
+  .menu-toggle__bars::before, .menu-toggle__bars::after { content: ""; position: absolute; left: 0; }
+  .menu-toggle__bars::before { top: -7px; }
+  .menu-toggle__bars::after { top: 7px; }
+  .menu-toggle[aria-expanded="true"] .menu-toggle__bars { background: transparent; }
+  .menu-toggle[aria-expanded="true"] .menu-toggle__bars::before { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] .menu-toggle__bars::after { transform: translateY(-7px) rotate(-45deg); }
+  .menu-toggle:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+
+  .js #site .header { position: relative; z-index: 60; }
+  .js #site .header nav { position: absolute; top: 100%; left: 0; right: 0; z-index: 50; background: var(--color-bg); border-bottom: 1px solid var(--color-border); box-shadow: 0 1rem 2rem -1.5rem rgb(19 19 19 / 0.35); }
+  .js #site .header nav:not([data-open]) { display: none; }
+  .js #site .header__nav { flex-direction: column; gap: 0; padding: var(--space-2) var(--container-pad, 16px) var(--space-4); font-size: 1.125rem; }
+  .js #site .header__nav a { display: block; padding-block: var(--space-3); }
+  .js #site .header__nav li + li { border-top: 1px solid var(--color-border); }
+  #site[data-site=byvaro] .header nav { background: var(--color-bg-inverse); }
+}
+
+/* Forside on phones: figures in one row, hero text a size down */
+@media (max-width: 40rem) {
+  .hero .hero__content { padding-block: var(--space-12) var(--space-8); }
+  .hero__title { font-size: clamp(2.25rem, 1rem + 6vw, 3rem); }
+  .hero__lead { font-size: 1rem; }
+  .hero__figures .figures__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+  .hero__figures.figures { padding-block: var(--space-6); }
+  .hero__figures .figures__item dd { font-size: clamp(1.5rem, 1rem + 4vw, 2.25rem); }
+  .hero__figures .figures__item { justify-content: flex-end; } /* numbers on one line even when a label wraps */
+  .hero__figures .figures__item dt { font-size: var(--text-sm); }
+  .featured-carousel__nav { gap: var(--space-3); }
+  .featured-carousel__dot { width: 18px; }
+  .featured-carousel__dot[aria-current="true"] { width: 32px; }
+}
+
+/* Byvaro's blue header: the menu button is white like the links */
+#site[data-site=byvaro] .menu-toggle { color: var(--color-text-inverse); }
+
+@media (max-width: 40rem) {
+  /* Om os: two people per row instead of one tall card each */
+  #site .people.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  #site .people li { padding: var(--space-3); }
+  #site .people h3 { font-size: 1rem; }
+  #site .people p { font-size: var(--text-sm); line-height: 1.35; }
+  #site .people__photo { margin-bottom: var(--space-3); }
+
+  /* Forside: shorter department cards */
+  #site .company-card { padding: var(--space-4) var(--space-5, 1.25rem); }
+  #site .company-card__logo { min-height: 40px; margin-bottom: var(--space-3); }
+}
+
+/* Long Danish words ("Privatlivspolitik") may break rather than run off small screens */
+h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
+@media (max-width: 22.5rem) {
+  .page-header h1, .project-head h1 { font-size: 2.125rem; }
+}
