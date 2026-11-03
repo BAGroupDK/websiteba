@@ -42,8 +42,8 @@ function motion() {
     }
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
 
-  for (const c of document.querySelectorAll<HTMLElement>('.figures__item dd > [aria-hidden="true"]')) {
-    const to = norm(c.textContent || '');
+  for (const c of document.querySelectorAll<HTMLElement>('.figures__item dd > [aria-hidden="true"], [data-count-up]')) {
+    const to = norm(c.dataset.countUp || c.textContent || '');
     if (!/^\d+$/.test(to)) continue;
     c.dataset.to = to;
     const n = Number(to);
@@ -240,6 +240,55 @@ function menu() {
   document.addEventListener('click', (e) => { if (!header.contains(e.target as Node)) set(false); });
 }
 
+// --- BYVARO page: loops play only on screen, the status flow steps along, the contact button follows --
+function byvaro() {
+  const anims = [...document.querySelectorAll<HTMLElement>('[data-byv-anim="hero"], [data-byv-anim="flow"]')];
+  const flow = document.querySelector<HTMLElement>('[data-byv-anim="flow"]');
+  const sticky = document.querySelector<HTMLElement>('.byv-sticky');
+  if (!('IntersectionObserver' in window)) return;
+  const moving = root.classList.contains('js-motion');
+
+  if (moving && anims.length) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        const el = e.target as HTMLElement;
+        if (e.isIntersecting) el.dataset.playing = ''; else delete el.dataset.playing;
+      }
+    }, { threshold: 0.2 });
+    anims.forEach((a) => io.observe(a));
+  }
+
+  if (moving && flow) {
+    const steps = [...flow.children] as HTMLElement[];
+    flow.dataset.live = '';
+    let n = 0;
+    const paint = () => {
+      flow.dataset.step = String(n);
+      steps.forEach((li, i) => {
+        if (i < n) li.dataset.on = ''; else delete li.dataset.on;
+        if (i === n - 1) li.dataset.current = ''; else delete li.dataset.current;
+      });
+    };
+    paint();
+    setInterval(() => {
+      if (!('playing' in flow.dataset) || document.visibilityState !== 'visible') return;
+      n = n >= steps.length + 2 ? 0 : n + 1; // hold the full line for a moment, then start over
+      paint();
+    }, 900);
+  }
+
+  // The contact button hides while another way to get in touch is already on screen.
+  if (sticky) {
+    const watch = [...document.querySelectorAll<HTMLElement>('.byv-hero, .byv-end, #site > .footer')];
+    const shown = new Set<Element>();
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) { if (e.isIntersecting) shown.add(e.target); else shown.delete(e.target); }
+      if (shown.size) sticky.dataset.hidden = ''; else delete sticky.dataset.hidden;
+    });
+    watch.forEach((w) => io.observe(w));
+  }
+}
+
 menu();
 heroVideo();
 motion();
@@ -247,3 +296,4 @@ carousel();
 lightbox();
 filter();
 contactForm();
+byvaro();
