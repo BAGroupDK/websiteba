@@ -1,0 +1,114 @@
+{
+  "afdelinger": {
+    "path": "/afdelinger/",
+    "title": "Afdelinger",
+    "h1": "Vores afdelinger",
+    "description": "BA samler afdelinger, der kan løfte både selve arbejdet og bemandingen.",
+    "theme": "ba"
+  },
+  "byvaro": {
+    "path": "/byvaro/",
+    "title": "Byvaro",
+    "h1": "Byg din byggeplads visuelt. Book uden konflikter.",
+    "description": "Porte, læssezoner, kraner og hejs på én plantegning. Byvaro siger fra, før to leverancer mødes i den samme port.",
+    "theme": "byvaro"
+  },
+  "forside": {
+    "path": "/",
+    "title": "Forside",
+    "h1": "Vi løser det. Hver gang.",
+    "description": "BA løser brolægnings-, anlægs- og betonopgaver i alle størrelser – fra mindre opgaver til store entrepriser – som hoved- eller underentreprenør. Vi stiller også faste, overenskomstansatte folk til rådighed inden for udgravning, anlæg, tømrerarbejde, beton og service.",
+    "theme": "ba"
+  },
+  "job": {
+    "path": "/job/",
+    "title": "Job",
+    "h1": "Bliv en del af BA",
+    "description": "Vi søger faglige folk, der vil arbejde ordentligt – med overenskomst, skriftlig kontrakt og pension fra første dag.",
+    "theme": "ba"
+  },
+  "kontakt": {
+    "path": "/kontakt/",
+    "title": "Kontakt",
+    "h1": "Kontakt os",
+    "description": "Skriv eller ring, så sørger vi for, at du får fat i den rette person i BA.",
+    "theme": "ba"
+  },
+  "om-os": {
+    "path": "/om-os/",
+    "title": "Om os",
+    "h1": "Om BA",
+    "description": "BA er en dansk virksomhed inden for brolægning, anlæg, beton, tømrerarbejde, service og bemanding på Sjælland. Vi arbejder for entreprenører, anlægsgartnere og bygherrer – som hoved- og underentreprenør og som leverandør af faglige folk.",
+    "theme": "ba"
+  },
+  "privatlivspolitik": {
+    "path": "/privatlivspolitik/",
+    "title": "Privatlivspolitik",
+    "h1": "Privatlivspolitik",
+    "description": "Kort fortalt: Vi bruger ingen cookies og sporer dig ikke.",
+    "theme": "ba"
+  },
+  "projekt-botanisk-have-koebenhavn": {
+    "path": "/projekter/botanisk-have-koebenhavn/",
+    "title": "Botanisk Have, København",
+    "h1": "Botanisk Have, København",
+    "description": "3.300 m² grusbelagte stier og veje i Botanisk Have.",
+    "theme": "ba"
+  },
+  "projekt-diverse-opgaver": {
+    "path": "/projekter/diverse-opgaver/",
+    "title": "Diverse opgaver",
+    "h1": "Diverse opgaver",
+    "description": "Indkørsler, trapper, stenmure, kantsten og mindre anlægsopgaver – et udsnit af det, vi laver hver dag.",
+    "theme": "ba"
+  },
+  "projekt-fjernvarme-lyngby-bagsvaerd": {
+    "path": "/projekter/fjernvarme-lyngby-bagsvaerd/",
+    "title": "Fjernvarme, Lyngby/Bagsværd",
+    "h1": "Fjernvarme, Lyngby/Bagsværd",
+    "description": "Udgravning til fjernvarmeledninger i Lyngby og Bagsværd.",
+    "theme": "ba"
+  },
+  "projekt-kulsviervej-lyngby": {
+    "path": "/projekter/kulsviervej-lyngby/",
+    "title": "Kulsviervej, Lyngby",
+    "h1": "Kulsviervej, Lyngby",
+    "description": "Brolæggerarbejde på Kulsviervej i Lyngby.",
+    "theme": "ba"
+  },
+  "projekt-lautrupvang-ballerup": {
+    "path": "/projekter/lautrupvang-ballerup/",
+    "title": "Lautrupvang Vandværk, Ballerup",
+    "h1": "Lautrupvang Vandværk, Ballerup",
+    "description": "Belægning og mandskab til det nye vandværk på Lautrupvang i Ballerup – sammen med Hoffmann A/S.",
+    "theme": "ba"
+  },
+  "projekt-nationalbanken-banken": {
+    "path": "/projekter/nationalbanken-banken/",
+    "title": "Nationalbanken, København",
+    "h1": "Nationalbanken, København",
+    "description": "Logistik, service, formænd og mandskab til byggeriet på Nationalbanken.",
+    "theme": "ba"
+  },
+  "projekt-nyboder-koebenhavn": {
+    "path": "/projekter/nyboder-koebenhavn/",
+    "title": "Nyboder, København",
+    "h1": "Nyboder, København",
+    "description": "2.000 m² brosten i Nyboder – som underentreprenør for Würtz.",
+    "theme": "ba"
+  },
+  "projekt-snostrup-frederikssund": {
+    "path": "/projekter/snostrup-frederikssund/",
+    "title": "Snostrup, Frederikssund",
+    "h1": "Snostrup, Frederikssund",
+    "description": "11 km kantsten samt 2 km fortov og brosten.",
+    "theme": "ba"
+  },
+  "projekter": {
+    "path": "/projekter/",
+    "title": "Projekter",
+    "h1": "Det har vi bygget",
+    "description": "Store projekter vi er stolte af – og et udsnit af de mange mindre opgaver, vi løser hver dag.",
+    "theme": "ba"
+  }
+}

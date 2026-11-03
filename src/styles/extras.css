@@ -1,0 +1,118 @@
+/*
+ * Additions made while the content was written in the mockup:
+ * pictures and video in fixed slots, project pages, the forside carousel,
+ * the hero video and figures, reveal on scroll, hover effects and the lightbox.
+ * The base styles (tokens, components, motion) are in site.css.
+ */
+
+/* Text colours picked in the mockup */
+[data-c="red"] { color: var(--ba-red); }
+[data-c="sort"] { color: var(--ba-black); }
+[data-c="graa"] { color: var(--ba-grey-dark); }
+[data-c="navy"] { color: var(--byvaro-navy); }
+[data-c="hvid"] { color: var(--ba-white); }
+
+/* A picture or video that fills its slot */
+.people__photo, .featured__plate, .project-card__plate, .bv-plan, .project__cover, .project__plate, .hero__media { position: relative; overflow: hidden; }
+.media-fill { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.media-figure { margin: var(--space-8) 0 0; max-width: 48rem; }
+.media-figure img, .media-figure video { display: block; width: 100%; height: auto; }
+.media-figure figcaption { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+.media-figure figcaption:empty { display: none; }
+.text-block { max-width: 48rem; margin-top: var(--space-8); }
+.text-block > :first-child { margin-top: 0; }
+
+/* Picture fields without a picture yet say so */
+:is(.project-card__plate, .project__cover, .featured__plate, .project__plate):not(:has(.media-fill))::before {
+  content: "Fotos kommer";
+  position: absolute; inset: 0; z-index: 1;
+  display: grid; place-items: center;
+  opacity: 1; animation: none; background: none; mask: none;
+  color: rgb(255 255 255 / 0.8);
+  font: var(--weight-semibold) var(--text-sm) / 1 var(--font-sans);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+/* Project pages: a cover and a gallery under the facts */
+.project__cover { aspect-ratio: 16 / 7; margin-bottom: var(--space-8); background: var(--color-bg-inverse); }
+.project__cover:not(:has(.media-fill)) { aspect-ratio: 16 / 5; }
+.project-gallery { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); margin-top: var(--space-6); }
+.project__plate { aspect-ratio: 4 / 3; background: var(--color-bg-inverse); }
+.project-gallery > .project__plate:not(:has(.media-fill)),
+.project-gallery-wrap:not(:has(.media-fill)) { display: none; }
+.js .project__cover .media-fill, .js .project__plate .media-fill, .js .media-figure img { cursor: zoom-in; }
+
+/* Om os: people in groups under one heading */
+.people-group + .people-group { margin-top: var(--space-12); }
+.people-group__title { margin: var(--space-8) 0 var(--space-4); font-size: var(--text-xl); }
+
+/* Footer: low, with the page links side by side */
+.footer.footer { padding-block: var(--space-10, 2.5rem) var(--space-6); }
+.footer .footer__grid { grid-template-columns: minmax(14rem, 1fr) 2fr; gap: var(--space-8); align-items: start; }
+.footer nav .footer__list { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
+.footer nav .footer__list li + li { margin-top: 0; }
+.footer .footer__bottom { margin-top: var(--space-8); }
+@media (max-width: 40rem) { .footer .footer__grid { grid-template-columns: 1fr; } }
+
+/* Forside: brand video behind the hero text, with the figures at the bottom */
+.hero { position: relative; overflow: hidden; isolation: isolate; grid-template-rows: 1fr auto; }
+.hero__media { position: absolute; inset: 0; z-index: -1; background: var(--color-bg-inverse); }
+.hero__media::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgb(19 19 19 / 0.86) 0%, rgb(19 19 19 / 0.62) 45%, rgb(19 19 19 / 0.25) 100%),
+    linear-gradient(0deg, rgb(19 19 19 / 0.6) 0%, transparent 45%);
+}
+.hero .hero__content { position: relative; align-self: end; }
+.hero__figures { position: relative; border-top: 1px solid rgb(255 255 255 / 0.14); background: linear-gradient(0deg, rgb(19 19 19 / 0.55), rgb(19 19 19 / 0.15)); }
+
+/* Forside: featured projects as a carousel (all of them listed without JavaScript) */
+.featured-carousel__track { display: grid; gap: var(--space-8); }
+.featured-carousel[data-live] .featured-carousel__track { gap: 0; }
+.featured-carousel[data-live] .featured-carousel__track > * { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0s linear 0.6s; }
+.featured-carousel[data-live] .featured-carousel__track > [data-on] { opacity: 1; visibility: visible; transition: opacity 0.6s ease; }
+.featured-carousel__nav { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-6); }
+.featured-carousel__arrow {
+  width: 44px; height: 44px; border: 1px solid var(--color-border); border-radius: 50%;
+  background: var(--color-bg); color: var(--color-text); font: 400 24px / 1 var(--font-sans); cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.featured-carousel__arrow:hover { background: var(--color-accent); border-color: var(--color-accent); color: var(--ba-white); }
+.featured-carousel__arrow:focus-visible, .featured-carousel__dot:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+.featured-carousel__dots { display: flex; gap: var(--space-2); }
+.featured-carousel__dot { width: 28px; height: 4px; padding: 0; border: 0; background: var(--color-border); cursor: pointer; transition: background 0.3s, width 0.3s; }
+.featured-carousel__dot[aria-current="true"] { width: 48px; background: var(--color-accent); }
+.featured-carousel__count { margin-left: auto; font-size: var(--text-sm); color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+
+/* Lightbox for project photos */
+.lightbox { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: rgb(10 14 18 / 0.92); }
+.lightbox[hidden] { display: none; }
+.lightbox__stage { display: grid; place-items: center; width: 100%; height: 100%; padding: 3.5rem var(--space-4); }
+.lightbox__stage img, .lightbox__stage video { max-width: 100%; max-height: 100%; object-fit: contain; }
+.lightbox button { position: absolute; width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgb(255 255 255 / 0.14); color: var(--ba-white); font: 400 26px / 1 var(--font-sans); cursor: pointer; }
+.lightbox button[hidden] { display: none; }
+.lightbox button:hover { background: rgb(255 255 255 / 0.28); }
+.lightbox button:focus-visible { outline: 2px solid var(--ba-white); outline-offset: 2px; }
+.lightbox__close { top: 12px; right: 12px; font-size: 18px; }
+.lightbox__nav--prev { left: 12px; top: 50%; translate: 0 -50%; }
+.lightbox__nav--next { right: 12px; top: 50%; translate: 0 -50%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Reveal on scroll in every browser, driven by src/scripts/site.ts */
+  .js-motion [data-reveal] { animation: none !important; transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .js-motion [data-reveal]:not([data-reveal="in"]) { opacity: 0; translate: 0 1.5rem; }
+  .js-motion [data-reveal="1"] { transition-delay: 80ms; }
+  .js-motion [data-reveal="2"] { transition-delay: 160ms; }
+  .js-motion [data-reveal="3"] { transition-delay: 240ms; }
+  .js-motion [data-reveal="4"] { transition-delay: 320ms; }
+  .js-motion [data-reveal="5"] { transition-delay: 400ms; }
+
+  /* Cards answer the mouse: they lift, and their picture moves in a little */
+  .project-card, .company-card, .people li { transition: translate 0.35s ease, box-shadow 0.35s ease; }
+  .project-card:hover, .people li:hover { translate: 0 -4px; box-shadow: 0 1rem 2rem -1rem rgb(19 19 19 / 0.25); }
+  :is(.project-card, .featured, .project__plate) .media-fill { transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  :is(.project-card, .featured, .project__plate):hover .media-fill { scale: 1.05; }
+
+  .featured-carousel[data-live] [data-on] .featured__plate > .media-fill { animation: drift 8s ease-out both; }
+}
+@keyframes drift { from { scale: 1.08; } to { scale: 1; } }

@@ -1,6 +1,6 @@
 # websiteba
 
-Website for BA Group – [baaps.dk](https://baaps.dk).
+Website for BA – [baaps.dk](https://baaps.dk).
 
 Static site built with [Astro](https://astro.build), hosted on GitHub Pages and deployed by GitHub Actions on every merge to `main`. No cookies, no tracking, no backend.
 
@@ -17,11 +17,9 @@ Node version: see `.nvmrc`.
 
 ## Content
 
-- Group facts (address, CVR, phone, key figures, timeline, management, values): `src/data/site.ts`
-- Companies: `src/content/companies/<id>.md`
-- Projects: `src/content/projects/<slug>/index.md` + photos in the same folder. Every photo needs `alt` and `credit`.
+The texts, pictures and page layout are written in the shared mockup and exported to `src/site/` (see `CLAUDE.md`). Media are in `public/media/`; every file and its credit is listed in `MEDIA.md`.
 
-Only approved content goes in this repository – it is public. Placeholders are marked `Pladsholder` (`grep -rn Pladsholder src`).
+Only approved content goes in this repository – it is public.
 
 ## Workflow
 
@@ -29,4 +27,4 @@ Only approved content goes in this repository – it is public. Placeholders are
 
 ---
 
-© BA Group. All rights reserved.
+© BA. All rights reserved.
