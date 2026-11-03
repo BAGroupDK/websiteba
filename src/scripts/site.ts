@@ -218,6 +218,29 @@ function heroVideo() {
   }
 }
 
+// --- Mobile menu: the header links fold behind a button on small screens ----------------------
+function menu() {
+  const header = document.querySelector<HTMLElement>('#site > .header');
+  const nav = header?.querySelector<HTMLElement>('nav');
+  if (!header || !nav) return;
+  nav.id ||= 'hovedmenu';
+  const toggle = make('button', 'menu-toggle');
+  toggle.type = 'button';
+  toggle.setAttribute('aria-controls', nav.id);
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.append(make('span', 'menu-toggle__label', 'Menu'), make('span', 'menu-toggle__bars'));
+  toggle.querySelector('.menu-toggle__bars')!.setAttribute('aria-hidden', 'true');
+  nav.before(toggle);
+  const set = (open: boolean) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) nav.dataset.open = ''; else delete nav.dataset.open;
+  };
+  toggle.addEventListener('click', () => set(!('open' in nav.dataset)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && 'open' in nav.dataset) { set(false); toggle.focus(); } });
+  document.addEventListener('click', (e) => { if (!header.contains(e.target as Node)) set(false); });
+}
+
+menu();
 heroVideo();
 motion();
 carousel();
