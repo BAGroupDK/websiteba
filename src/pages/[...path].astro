@@ -1,0 +1,21 @@
+---
+// Every page of the site, built from the HTML exported from the mockup (src/site/).
+import Base from '../layouts/Base.astro';
+import pages from '../site/pages.json';
+
+interface Page { path: string; title: string; h1: string; description: string; theme: 'ba' | 'byvaro' }
+
+export function getStaticPaths() {
+  return Object.entries(pages as Record<string, Page>).map(([id, page]) => ({
+    params: { path: page.path === '/' ? undefined : page.path.slice(1, -1) },
+    props: { id, page },
+  }));
+}
+
+const files = import.meta.glob<string>('../site/*.html', { query: '?raw', import: 'default', eager: true });
+const { id, page } = Astro.props as { id: string; page: Page };
+const html = files[`../site/${id}.html`];
+const title = id === 'forside' ? undefined : id.startsWith('projekt-') ? page.h1 : page.title;
+---
+
+<Base title={title} description={page.description} theme={page.theme} html={html} />
