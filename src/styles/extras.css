@@ -46,13 +46,14 @@
 .people-group + .people-group { margin-top: var(--space-12); }
 .people-group__title { margin: var(--space-8) 0 var(--space-4); font-size: var(--text-xl); }
 
-/* Footer: low, with the page links side by side */
-.footer.footer { padding-block: var(--space-10, 2.5rem) var(--space-6); }
-.footer .footer__grid { grid-template-columns: minmax(14rem, 1fr) 2fr; gap: var(--space-8); align-items: start; }
-.footer nav .footer__list { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
-.footer nav .footer__list li + li { margin-top: 0; }
-.footer .footer__bottom { margin-top: var(--space-8); }
-@media (max-width: 40rem) { .footer .footer__grid { grid-template-columns: 1fr; } }
+/* Footer: low, with the page links side by side.
+   #site outranks the footer component's own scoped rules (class + data-astro-cid attributes). */
+#site .footer { padding-block: var(--space-10, 2.5rem) var(--space-6); }
+#site .footer__grid { grid-template-columns: minmax(14rem, 1fr) 2fr; gap: var(--space-8); align-items: start; }
+#site .footer nav .footer__list { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
+#site .footer nav .footer__list li + li { margin-top: 0; }
+#site .footer__bottom { margin-top: var(--space-8); }
+@media (max-width: 40rem) { #site .footer__grid { grid-template-columns: 1fr; } }
 
 /* Forside: brand video behind the hero text, with the figures at the bottom */
 .hero { position: relative; overflow: hidden; isolation: isolate; grid-template-rows: 1fr auto; }
