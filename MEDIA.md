@@ -5,9 +5,9 @@ Add a line for every new file.
 
 | File | Credit |
 |---|---|
-| `public/media/forside/hero-broll.jpg` | BA (still from BA’s brand film) |
-| `public/media/forside/hero-broll.mp4` | BA (b-roll cut 0:56–1:11 from BA’s brand film, H.264) |
-| `public/media/forside/hero-broll-hevc.mp4` | BA (b-roll cut 0:56–1:11 from BA’s brand film, HEVC) |
+| `public/media/forside/hero-montage.jpg` | BA (still from BA’s brand film) |
+| `public/media/forside/hero-montage.mp4` | BA (montage of 16 shots from across BA’s brand film, H.264) |
+| `public/media/forside/hero-montage-hevc.mp4` | BA (montage of 16 shots from across BA’s brand film, HEVC) |
 | `public/media/job/hold-nationalbanken.jpg` | BA |
 | `public/media/personer/amina-pekez.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/anders-blom-gibhardt.jpg` | BA (portrait of a BA employee) |
