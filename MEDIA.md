@@ -9,10 +9,12 @@ Add a line for every new file.
 | `public/media/forside/hero-broll.mp4` | BA (b-roll cut 0:56–1:11 from BA’s brand film, H.264) |
 | `public/media/forside/hero-broll-hevc.mp4` | BA (b-roll cut 0:56–1:11 from BA’s brand film, HEVC) |
 | `public/media/job/hold-nationalbanken.jpg` | BA |
+| `public/media/personer/amina-pekez.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/anders-blom-gibhardt.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/flemming-profft.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/ivan-rajovic.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/jamie-alexander-barber.jpg` | BA (portrait of a BA employee) |
+| `public/media/personer/jesper-kudsk.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/martin-juel-andersen.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/mikkel-bode-wrangel.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/sune-poulsen.jpg` | BA (portrait of a BA employee) |
