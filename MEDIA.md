@@ -28,6 +28,11 @@ Add a line for every new file.
 | `public/media/projekter/botanisk-have-7.jpg` | BA |
 | `public/media/projekter/botanisk-have-8.jpg` | BA |
 | `public/media/projekter/botanisk-have-9.jpg` | BA |
+| `public/media/projekter/fjernvarme-1.jpg` | BA |
+| `public/media/projekter/fjernvarme-2.jpg` | BA |
+| `public/media/projekter/fjernvarme-3.jpg` | BA |
+| `public/media/projekter/fjernvarme-4.jpg` | BA |
+| `public/media/projekter/fjernvarme-5.jpg` | BA |
 | `public/media/projekter/lautrupvang-12.jpg` | BA |
 | `public/media/projekter/lautrupvang-16.jpg` | BA |
 | `public/media/projekter/lautrupvang-17.jpg` | BA |
