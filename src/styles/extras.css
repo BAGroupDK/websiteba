@@ -227,6 +227,8 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 .byv-cards-live { display: grid; gap: var(--space-2); margin-top: var(--space-4); }
 .byv-chip { margin: 0; padding: var(--space-2) var(--space-3); border-left: 4px solid var(--byvaro-navy); border-radius: 4px; background: var(--ba-white); color: var(--byvaro-navy); font: 600 var(--text-sm) / 1.35 var(--byv-brand-font); }
 .byv-chip--no { border-left-color: var(--ba-red); background: var(--byvaro-no-bg); color: var(--byvaro-ink); }
+/* "Optaget" and "Forslag" never show at once, so they share the second line and leave no gap. */
+.byv-chip--2, .byv-chip--3 { grid-area: 2 / 1; }
 
 /* 2–3. Cards and the difference */
 .byv-cards, .byv-core, .byv-steps, .byv-modules, .byv-checks, .byv-views { padding: 0; list-style: none; }
@@ -235,6 +237,10 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 .byv-card p, .byv-core p, .byv-module p, .byv-step p { margin: 0; color: var(--color-text-muted); }
 .byv-window { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-8); margin-top: var(--space-12); }
 @media (min-width: 64rem) { .byv-window { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: end; } }
+/* Side by side, the two explanations sit right under their pictures and name them, so the captions go. */
+@media (min-width: 64rem) {
+  .byv-window figcaption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
 .byv-window figure { margin: 0; padding: var(--space-4); border-radius: 8px; background: var(--color-bg); border: 1px solid var(--color-border); }
 .byv-window svg { display: block; width: 100%; height: auto; }
 .byv-window figcaption { margin-top: var(--space-3); text-align: center; font-weight: var(--weight-semibold); color: var(--byvaro-navy); }
@@ -256,6 +262,7 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 .byv-found text { fill: var(--ba-white); font: 700 11px / 1 var(--byv-brand-font); }
 .byv-compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-6); margin-top: var(--space-8); }
 @media (min-width: 48rem) { .byv-compare { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 64rem) { .byv-compare { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--space-8); } }
 .byv-compare__col { padding: var(--space-6); border-left: 4px solid var(--byvaro-line); background: var(--color-bg); }
 .byv-compare__col--byvaro { border-left-color: var(--byvaro-navy); }
 .byv-compare__col h3 { font-size: var(--text-lg); }
@@ -332,6 +339,9 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 .byv-co2__num { font: 800 var(--text-3xl) / 1 var(--byv-brand-font); font-variant-numeric: tabular-nums; }
 .byv-co2__unit { font-weight: var(--weight-semibold); }
 .byv-co2__tag { flex-basis: 100%; font-size: var(--text-sm); color: var(--color-text-muted); }
+/* The example figures sit on the same line in both module cards, however long the text above them is. */
+.byv-module { display: flex; flex-direction: column; }
+.byv-module .byv-co2 { margin-top: auto !important; padding-top: var(--space-4); }
 .byv-checks { display: grid; gap: var(--space-4); max-width: 48rem; margin-top: var(--space-8); }
 .byv-checks li { position: relative; padding-left: 2.25rem; font-size: var(--text-lg); }
 .byv-checks li::before { content: ""; position: absolute; left: 0.35rem; top: 0.3em; width: 0.6rem; height: 1.1rem; border: solid var(--byvaro-navy); border-width: 0 3px 3px 0; transform: rotate(45deg); }
