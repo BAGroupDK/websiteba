@@ -45,10 +45,25 @@ Corporate website for BA. Repo: `BAGroupDK/websiteba` (public).
 - Styles: `src/styles/site.css` (base styles exported from the mockup build) and `src/styles/extras.css` (picture slots, project pages, hero video, carousel, lightbox, reveal and hover motion).
 - JavaScript: `src/scripts/site.ts` only – the mobile menu, reveal on scroll, count-up, the forside carousel, the lightbox, the project filter and the contact form.
 - Responsive: check every page at 320, 375, 768 and 1024 px for horizontal overflow. Below 48rem the header links fold behind a "Menu" button; phone rules are at the end of `extras.css`. The site must work without JS: every project and photo is in the markup.
-- Motion: everything behind `prefers-reduced-motion: no-preference`; animate only `transform`/`opacity`/`translate`/`scale`; never animate the logo. The hero video stays still for reduced motion. The in-app test browser is often hidden and renders no frames – use `scrollTo({behavior: "instant"})` and take a screenshot to force a frame.
+- Motion: see "Motion" below.
 - CSS is minified with esbuild, not Lightning CSS: Lightning CSS folds `animation-timeline` into the `animation` shorthand, which browsers reject.
 - Accessibility target: WCAG 2.2 AA. Skip link, visible focus, semantic landmarks, `aria-current`, `prefers-reduced-motion`.
 - Actions are pinned to full commit SHAs (with a version comment); Dependabot keeps them current.
+
+## Motion
+
+Adapted from Emil Kowalski's skills (`emilkowalski/skills`, MIT, read at commit `64eb3de`). The rules apply to `extras.css` and to the mockup alike.
+
+- **Reduced motion:** everything moves only behind `prefers-reduced-motion: no-preference`. With reduced motion, content is in its final state at once: no movement, no delays, nothing hidden waiting for a reveal. The hero video stays still.
+- **Only when it does a job:** motion must show state, give feedback, explain or soften an abrupt change. How often a visitor sees it decides how much: the menu, project filter, carousel and lightbox are fast; the hero, page headers and the red line are seen once per visit and may take their time. Never animate the logo.
+- **Properties:** animate only `transform`/`translate`/`scale`/`opacity` (`clip-path` is fine for reveals). Never `width`/`height`/`margin`/`top`/`left` – grow with `scale`, move with `translate`, hide with `opacity` and then `visibility: hidden`. Never `transition: all`; list the exact properties.
+- **Easing:** use the tokens in `site.css`, never a raw `cubic-bezier()` or the built-in `ease`. `--ease-out` for anything entering, leaving, hovering or responding to a press; `--ease-in-out` for things moving across the screen; `linear` only for constant motion. Never `ease-in` on UI – it starts slow at exactly the moment the visitor is watching.
+- **Duration:** `--duration-fast` (160 ms) for press, hover, colour and the menu – responses to an action stay under 300 ms. `--duration-base` (450 ms) for reveals and the lightbox. `--duration-slow` and `--duration-hero` only for once-per-visit moments.
+- **Physical feel:** never grow from `scale(0)`; start at `scale(0.95–0.97)` with `opacity: 0`. Pressable elements get `scale(0.97)` on `:active`. Hover motion only inside `@media (hover: hover) and (pointer: fine)` – touch screens fire hover on tap.
+- **Choreography:** one entrance per container – do not animate a section in and also stagger its children. Stagger order follows importance, not DOM order, and the gaps shrink down the group (equal gaps look mechanical). In lists, stagger only the first handful. Everything is clickable as soon as it is visible. Exits are shorter and go all at once.
+- **Interruptible:** anything that can be retriggered mid-motion (menu, filter, lightbox, carousel) uses transitions, not keyframes – keyframes restart from zero. `@starting-style` gives an entry animation without JS.
+- **Performance:** judge on a mid-range phone, not a MacBook. `will-change` only after seeing a 1 px shift, and never on large containers. Don't drive many children's transforms through a CSS variable on the parent (it restyles every child each frame). Keep animated `blur()` under 20 px.
+- **Testing:** the in-app test browser is often hidden and renders no frames – use `scrollTo({behavior: "instant"})` and take a screenshot to force a frame. Slow an animation 2–5× in the DevTools Animations panel to judge it.
 
 ## Commands
 
