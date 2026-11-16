@@ -70,19 +70,22 @@
 /* Forside: featured projects as a carousel (all of them listed without JavaScript) */
 .featured-carousel__track { display: grid; gap: var(--space-8); }
 .featured-carousel[data-live] .featured-carousel__track { gap: 0; }
-.featured-carousel[data-live] .featured-carousel__track > * { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0s linear 0.6s; }
-.featured-carousel[data-live] .featured-carousel__track > [data-on] { opacity: 1; visibility: visible; transition: opacity 0.6s ease; }
+.featured-carousel[data-live] .featured-carousel__track > * { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 0.6s var(--ease-out), visibility 0s linear 0.6s; }
+.featured-carousel[data-live] .featured-carousel__track > [data-on] { opacity: 1; visibility: visible; transition: opacity 0.6s var(--ease-out); }
 .featured-carousel__nav { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-6); }
 .featured-carousel__arrow {
   width: 44px; height: 44px; border: 1px solid var(--color-border); border-radius: 50%;
   background: var(--color-bg); color: var(--color-text); font: 400 24px / 1 var(--font-sans); cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
 }
 .featured-carousel__arrow:hover { background: var(--color-accent); border-color: var(--color-accent); color: var(--ba-white); }
 .featured-carousel__arrow:focus-visible, .featured-carousel__dot:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
-.featured-carousel__dots { display: flex; gap: var(--space-2); }
-.featured-carousel__dot { width: 28px; height: 4px; padding: 0; border: 0; background: var(--color-border); cursor: pointer; transition: background 0.3s, width 0.3s; }
-.featured-carousel__dot[aria-current="true"] { width: 48px; background: var(--color-accent); }
+/* Every dot is a fixed 48px slot; the bar inside scales instead of the slot changing width,
+   so nothing reflows when the current dot changes. */
+.featured-carousel__dots { display: flex; }
+.featured-carousel__dot { display: grid; place-items: center; width: 48px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; }
+.featured-carousel__dot::before { content: ""; width: 100%; height: 4px; background: var(--color-border); scale: 0.58 1; transition: background-color var(--duration-fast) var(--ease-out); }
+.featured-carousel__dot[aria-current="true"]::before { background: var(--color-accent); scale: 1; }
 .featured-carousel__count { margin-left: auto; font-size: var(--text-sm); color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
 
 /* Lightbox for project photos */
@@ -100,7 +103,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   /* Reveal on scroll in every browser, driven by src/scripts/site.ts */
-  .js-motion [data-reveal] { animation: none !important; transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .js-motion [data-reveal] { animation: none !important; transition: opacity 0.7s var(--ease-out), translate 0.7s var(--ease-out); }
   .js-motion [data-reveal]:not([data-reveal="in"]) { opacity: 0; translate: 0 1.5rem; }
   .js-motion [data-reveal="1"] { transition-delay: 80ms; }
   .js-motion [data-reveal="2"] { transition-delay: 160ms; }
@@ -109,12 +112,13 @@
   .js-motion [data-reveal="5"] { transition-delay: 400ms; }
 
   /* Cards answer the mouse: they lift, and their picture moves in a little */
-  .project-card, .company-card, .people li { transition: translate 0.35s ease, box-shadow 0.35s ease; }
+  .project-card, .company-card, .people li { transition: translate 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out); }
   .project-card:hover, .people li:hover { translate: 0 -4px; box-shadow: 0 1rem 2rem -1rem rgb(19 19 19 / 0.25); }
-  :is(.project-card, .featured, .project__plate) .media-fill { transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  :is(.project-card, .featured, .project__plate) .media-fill { transition: scale 0.6s var(--ease-out); }
   :is(.project-card, .featured, .project__plate):hover .media-fill { scale: 1.05; }
 
-  .featured-carousel[data-live] [data-on] .featured__plate > .media-fill { animation: drift 8s ease-out both; }
+  .featured-carousel[data-live] [data-on] .featured__plate > .media-fill { animation: drift 8s var(--ease-out) both; }
+  .featured-carousel__dot::before { transition: background-color var(--duration-fast) var(--ease-out), scale var(--duration-base) var(--ease-out); }
 }
 @keyframes drift { from { scale: 1.08; } to { scale: 1; } }
 
@@ -132,7 +136,7 @@
     min-height: 44px; padding: 0 var(--space-3); margin-right: calc(var(--space-3) * -1);
     border: 0; background: none; color: inherit; font: var(--weight-semibold) 1rem / 1 var(--font-sans); cursor: pointer;
   }
-  .menu-toggle__bars, .menu-toggle__bars::before, .menu-toggle__bars::after { display: block; width: 22px; height: 2px; background: currentColor; transition: transform 0.25s ease, opacity 0.2s; }
+  .menu-toggle__bars, .menu-toggle__bars::before, .menu-toggle__bars::after { display: block; width: 22px; height: 2px; background: currentColor; transition: transform var(--duration-fast) var(--ease-out), opacity var(--duration-fast) var(--ease-out); }
   .menu-toggle__bars { position: relative; }
   .menu-toggle__bars::before, .menu-toggle__bars::after { content: ""; position: absolute; left: 0; }
   .menu-toggle__bars::before { top: -7px; }
@@ -162,8 +166,7 @@
   .hero__figures .figures__item { justify-content: flex-end; } /* numbers on one line even when a label wraps */
   .hero__figures .figures__item dt { font-size: var(--text-sm); }
   .featured-carousel__nav { gap: var(--space-3); }
-  .featured-carousel__dot { width: 18px; }
-  .featured-carousel__dot[aria-current="true"] { width: 32px; }
+  .featured-carousel__dot { width: 32px; }
 }
 
 /* Byvaro's blue header: the menu button is white like the links */
@@ -293,7 +296,7 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 .byv-flow li { position: relative; padding-top: 2rem; text-align: center; font-weight: var(--weight-semibold); font-size: var(--text-sm); color: var(--byvaro-ink); }
 .byv-flow li::before, .byv-flow li::after { content: ""; position: absolute; top: 0; left: 50%; width: 21px; height: 21px; margin-left: -10.5px; border-radius: 50%; }
 .byv-flow li::before { z-index: 1; border: 3px solid var(--byvaro-navy); background: var(--ba-white); }
-.byv-flow li::after { z-index: 2; background: var(--byvaro-navy); transition: opacity 0.3s ease, transform 0.3s ease; }
+.byv-flow li::after { z-index: 2; background: var(--byvaro-navy); transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out); }
 .byv-note { max-width: 60ch; margin: 0; color: var(--color-text-muted); }
 @media (max-width: 47.99rem) {
   .byv-flow { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
@@ -304,7 +307,7 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 
 /* 6. Four views */
 .byv-views { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-6); margin-top: var(--space-12); }
-.byv-view { padding: var(--space-4); border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg); transition: transform 0.3s ease, opacity 0.3s ease; }
+.byv-view { padding: var(--space-4); border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg); transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out); }
 .byv-view:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
 .byv-view h3 { margin-top: var(--space-3); font-size: var(--text-lg); }
 .byv-view__kind { display: block; font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text-muted); }
@@ -351,7 +354,7 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 .byv-faq details:first-of-type { margin-top: var(--space-8); border-top: 1px solid var(--color-border); }
 .byv-faq summary { display: flex; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-4); font-weight: var(--weight-semibold); font-size: var(--text-lg); color: var(--byvaro-navy); cursor: pointer; list-style: none; }
 .byv-faq summary::-webkit-details-marker { display: none; }
-.byv-faq summary::after { content: "+"; font-size: 1.5rem; line-height: 1; transition: transform 0.2s ease; }
+.byv-faq summary::after { content: "+"; font-size: 1.5rem; line-height: 1; transition: transform var(--duration-fast) var(--ease-out); }
 .byv-faq details[open] summary::after { transform: rotate(45deg); }
 .byv-faq summary:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
 .byv-faq details p { margin: 0 0 var(--space-4); max-width: 60ch; }
@@ -360,13 +363,13 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 .byv-end { padding-block: var(--space-section); }
 .byv-end h2 { font-size: var(--text-2xl); }
 .byv-end .lead { color: rgb(255 255 255 / 0.9); }
-.byv-sticky { position: fixed; right: var(--space-4); bottom: var(--space-4); z-index: 40; box-shadow: 0 0.75rem 1.5rem -0.5rem rgb(0 47 87 / 0.45); transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0s; }
-.byv-sticky[data-hidden] { opacity: 0; transform: translateY(0.75rem); visibility: hidden; transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s; }
+.byv-sticky { position: fixed; right: var(--space-4); bottom: var(--space-4); z-index: 40; box-shadow: 0 0.75rem 1.5rem -0.5rem rgb(0 47 87 / 0.45); transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out), visibility 0s linear 0s; }
+.byv-sticky[data-hidden] { opacity: 0; transform: translateY(0.75rem); visibility: hidden; transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out), visibility 0s linear 0.25s; }
 @media (max-width: 40rem) { .byv-sticky { left: var(--space-4); justify-content: center; } }
 
 /* Motion: hero loop, the sliding window, steps building up, the status flow */
 @media (prefers-reduced-motion: no-preference) {
-  .js-motion .byv-anim .byv-truck, .js-motion .byv-anim .byv-res--port, .js-motion .byv-anim .byv-res--zone, .js-motion .byv-anim .byv-res--crane, .js-motion .byv-anim .byv-chip { animation-duration: 10s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; animation-fill-mode: both; animation-play-state: paused; }
+  .js-motion .byv-anim .byv-truck, .js-motion .byv-anim .byv-res--port, .js-motion .byv-anim .byv-res--zone, .js-motion .byv-anim .byv-res--crane, .js-motion .byv-anim .byv-chip { animation-duration: 10s; animation-iteration-count: infinite; animation-timing-function: var(--ease-in-out); animation-fill-mode: both; animation-play-state: paused; }
   .js-motion .byv-anim[data-playing] :is(.byv-truck, .byv-res, .byv-chip) { animation-play-state: running; }
   .js-motion .byv-truck--1 { animation-name: byv-truck1; }
   .js-motion .byv-truck--2 { animation-name: byv-truck2; }
@@ -388,7 +391,7 @@ h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
   .js-motion .byv-step[data-reveal="in"] .byv-drop--3 { animation-delay: 0.5s; }
   .js-motion .byv-step[data-reveal="in"] .byv-drop--4 { animation-delay: 0.75s; }
   .js-motion .byv-step[data-reveal="in"] .byv-pop { animation: byv-pop 0.5s var(--ease-out) 0.9s both; transform-box: fill-box; transform-origin: center; }
-  .js-motion .byv-step[data-reveal="in"] :is(.byv-row__hl, .byv-row__state) { animation: byv-fade 0.5s ease 1.1s both; }
+  .js-motion .byv-step[data-reveal="in"] :is(.byv-row__hl, .byv-row__state) { animation: byv-fade 0.5s var(--ease-out) 1.1s both; }
 
   .js-motion .byv-flow[data-live] li:not([data-on])::after { opacity: 0; transform: scale(0.4); }
   .js-motion .byv-flow[data-live]::after { transition: transform 0.6s var(--ease-out); }
