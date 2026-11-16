@@ -9,7 +9,6 @@ Add a line for every new file.
 | `public/media/forside/hero-montage.mp4` | BA (montage of 16 shots from across BA’s brand film, H.264) |
 | `public/media/forside/hero-montage-hevc.mp4` | BA (montage of 16 shots from across BA’s brand film, HEVC) |
 | `public/media/job/hold-nationalbanken.jpg` | BA |
-| `public/media/personer/amina-pekez.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/anders-blom-gibhardt.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/flemming-profft.jpg` | BA (portrait of a BA employee) |
 | `public/media/personer/ivan-rajovic.jpg` | BA (portrait of a BA employee) |
